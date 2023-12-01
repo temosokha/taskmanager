@@ -1,0 +1,42 @@
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+}
+
+.auth-input, .auth-button {
+    margin-bottom: 20px;
+}
+
+.auth-input {
+    border-radius: 15px;
+    border: none;
+    background-color: #F4F6FA;
+    height: 50px;
+    width: 420px;
+    padding-left: 25px;
+    transition: all 0.3s ease;
+}
+
+.auth-input:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+.auth-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.auth-button, .switch-button {
+    border-radius: 60px;
+    border: none;
+    height: 60px;
+    width: 420px;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.auth-button:active, .switch-button:active {
+    transform: scale(0.98);
+}
