@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "./Auth.css";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const Auth = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
+    const [role, setRole] = useState('worker'); // Default role is 'worker'
     const [isLogin, setIsLogin] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
@@ -21,6 +22,10 @@ const Auth = () => {
     const validatePassword = (password) => {
         const regex = /^(?=.*\d)(?=.*[A-Z]).{6,}$/;
         return regex.test(password);
+    };
+
+    const handleRoleChange = (e) => {
+        setRole(e.target.value);
     };
 
     const handleSubmit = async (e) => {
@@ -37,7 +42,7 @@ const Auth = () => {
 
         const url = `http://127.0.0.1:5000/${isLogin ? 'login' : 'register'}`;
         try {
-            const response = await axios.post(url, { username, password });
+            const response = await axios.post(url, { username, password, role });
             if (isLogin) {
                 const token = response.data.access_token;
                 localStorage.setItem('token', token);
@@ -72,13 +77,23 @@ const Auth = () => {
                     onChange={(e) => handleInputChange(e, 'password')}
                 />
                 {!isLogin && (
-                    <input
-                        className="auth-input"
-                        type="password"
-                        placeholder="Repeat Password"
-                        value={repeatPassword}
-                        onChange={(e) => handleInputChange(e, 'repeatPassword')}
-                    />
+                    <>
+                        <input
+                            className="auth-input"
+                            type="password"
+                            placeholder="Repeat Password"
+                            value={repeatPassword}
+                            onChange={(e) => handleInputChange(e, 'repeatPassword')}
+                        />
+                        <select
+                            className="auth-input"
+                            value={role}
+                            onChange={handleRoleChange}
+                        >
+                            <option value="worker">Worker</option>
+                            <option value="manager">Manager</option>
+                        </select>
+                    </>
                 )}
                 <button className="auth-button" type="submit">
                     {isLogin ? 'Login' : 'Register'}
